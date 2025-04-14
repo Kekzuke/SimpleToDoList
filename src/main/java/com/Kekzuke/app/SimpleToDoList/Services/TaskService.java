@@ -1,6 +1,7 @@
 package com.Kekzuke.app.SimpleToDoList.Services;
 
 import com.Kekzuke.app.SimpleToDoList.Models.Task;
+import com.Kekzuke.app.SimpleToDoList.Models.Stats;
 import com.Kekzuke.app.SimpleToDoList.Models.TaskStatus;
 import com.Kekzuke.app.SimpleToDoList.Repo.TaskRepo;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,14 @@ public class TaskService {
         this.taskRepo = taskRepo;
     }
 
-    public String getPage(){
-        return "Welcome";
+    public List<Task> getPage(){
+        var tasks = taskRepo.findByStatus(TaskStatus.NeedToDo);
+
+        for (Task task : taskRepo.findByStatus(TaskStatus.InProgress)) {
+            tasks.add(task);
+        }
+
+        return tasks;
     }
 
     public List<Task> getTasks() {
@@ -82,6 +89,18 @@ public class TaskService {
         taskRepo.deleteById(id);
 
         return "Task deleted";
+    }
+
+    public Stats getStats() {
+        var allTasks = taskRepo.findAll();
+
+        Stats stats = new Stats();
+
+        stats.setTotalOfTask(allTasks.size());
+        stats.setCompletedTask((int) allTasks.stream().filter(x -> x.getStatus() == TaskStatus.Done).count());
+        stats.setCompletedTasksPercentage(stats.getCompletedTask() * 100 / allTasks.size());
+
+        return stats;
     }
 
 }

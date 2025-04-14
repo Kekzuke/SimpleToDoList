@@ -1,5 +1,6 @@
 package com.Kekzuke.app.SimpleToDoList.Controller;
 
+import com.Kekzuke.app.SimpleToDoList.Models.Stats;
 import com.Kekzuke.app.SimpleToDoList.Models.Task;
 import com.Kekzuke.app.SimpleToDoList.Models.TaskStatus;
 import com.Kekzuke.app.SimpleToDoList.Services.TaskService;
@@ -17,7 +18,7 @@ public class ToDoAPIController {
     }
 
     @GetMapping(value = "/")
-    public String getPage(){
+    public List<Task> getPage(){
         return taskService.getPage();
     }
 
@@ -29,6 +30,11 @@ public class ToDoAPIController {
     @GetMapping(value = "/tasks/{status}")
     public List<Task> getTasksByStatus(@PathVariable TaskStatus status) {
         return taskService.getTasksByStatus(status);
+    }
+
+    @GetMapping(value = "/stats")
+    public Stats getStats() {
+        return taskService.getStats();
     }
 
     @PostMapping(value = {"/tasks"})
