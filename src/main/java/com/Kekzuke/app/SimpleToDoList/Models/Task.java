@@ -1,19 +1,30 @@
 package com.Kekzuke.app.SimpleToDoList.Models;
-import com.Kekzuke.app.SimpleToDoList.Models.TaskStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
 
-public class ToDoList {
+@Entity
+public class Task {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
     private String name;
 
+    @Column
     private String description;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
+
+    @Column
+    private LocalDate createDate;
+
+    @Column
+    private LocalDate solvedDate;
 
     public long getId() {
         return id;
@@ -45,6 +56,22 @@ public class ToDoList {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public LocalDate getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDate getSolvedDate() {
+        return solvedDate;
+    }
+
+    public void setSolvedDate(LocalDate solvedDate) {
+        this.solvedDate = solvedDate;
     }
 }
 
